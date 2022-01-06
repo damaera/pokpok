@@ -276,7 +276,7 @@ export type ListPokemonsQueryVariables = Exact<{
 }>;
 
 
-export type ListPokemonsQuery = { __typename?: 'Query', pokemons?: { __typename?: 'PokemonList', status?: boolean | null | undefined, message?: string | null | undefined, count?: number | null | undefined, next?: string | null | undefined, previous?: string | null | undefined, results?: Array<{ __typename?: 'PokemonItem', id?: number | null | undefined, url?: string | null | undefined, name?: string | null | undefined, image?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type ListPokemonsQuery = { __typename?: 'Query', pokemons?: { __typename?: 'PokemonList', status?: boolean | null | undefined, message?: string | null | undefined, count?: number | null | undefined, nextOffset?: number | null | undefined, prevOffset?: number | null | undefined, results?: Array<{ __typename?: 'PokemonItem', id?: number | null | undefined, url?: string | null | undefined, name?: string | null | undefined, image?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 
 export const GetPokemonDocument = gql`
@@ -331,8 +331,8 @@ export const ListPokemonsDocument = gql`
     status
     message
     count
-    next
-    previous
+    nextOffset
+    prevOffset
     results {
       id
       url

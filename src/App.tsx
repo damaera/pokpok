@@ -8,9 +8,10 @@ import { Header } from "./ui/Header";
 import { baseSize } from "./ui/constant";
 import { GlobalStyle } from "./ui/GlobalStyle";
 
+import "react-loading-skeleton/dist/skeleton.css";
+
 const Content = styled.section`
   padding: ${baseSize}px;
-
   font-size: ${baseSize}px;
 `;
 

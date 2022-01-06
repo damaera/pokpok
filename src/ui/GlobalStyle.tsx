@@ -6,11 +6,12 @@ const globalStyle = css`
     text-decoration: none;
     color: inherit;
   }
-  .App {
+  body {
+    background: ${color.backgroundSecondary};
+
+    color: ${color.foreground};
     font-size: ${typography.md};
     line-height: 1.5;
-    background-color: ${color.background};
-    color: ${color.foreground};
   }
 `;
 

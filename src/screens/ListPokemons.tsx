@@ -2,12 +2,11 @@
 // total. When a Pokemon is clicked, it should go to that Pokemon Detail page.
 
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useListPokemonsQuery } from "../generated/graphql";
 import { routes } from "../routes";
 import { PokeCard } from "../ui/PokeCard";
-import { Spacer } from "../ui/Spacer";
 
 const PokemonWrapper = styled.div`
   display: flex;
@@ -17,13 +16,23 @@ const PokemonWrapper = styled.div`
   justify-content: center;
 `;
 
+const PAGE_LIMIT = 30;
+
 const ListPokemons: React.FC<{}> = () => {
-  const { loading, error, data } = useListPokemonsQuery({
+  const { loading, error, data, fetchMore } = useListPokemonsQuery({
     variables: {
-      limit: 12,
+      limit: PAGE_LIMIT,
       offset: 0,
     },
   });
+
+  const loadingEl = (
+    <PokemonWrapper>
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => (
+        <PokeCard key={i} isLoading={true} />
+      ))}
+    </PokemonWrapper>
+  );
 
   return (
     <PokemonWrapper>
@@ -31,12 +40,29 @@ const ListPokemons: React.FC<{}> = () => {
         <Link to={routes.pokemonDetail((pokemon?.id || 0).toString())}>
           <PokeCard
             key={pokemon?.id || 0}
-            id={pokemon?.id || 0}
-            name={pokemon?.name || ""}
-            image={pokemon?.image || ""}
+            pokemon={{
+              id: pokemon?.id || 0,
+              name: pokemon?.name || "",
+              image: pokemon?.image || "",
+            }}
+            isLoading={false}
           />
         </Link>
       ))}
+      {loading && loadingEl}
+
+      <button
+        onClick={(_) =>
+          fetchMore({
+            variables: {
+              offset: data?.pokemons?.nextOffset,
+              limit: PAGE_LIMIT,
+            },
+          })
+        }
+      >
+        fetch more
+      </button>
     </PokemonWrapper>
   );
 };

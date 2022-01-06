@@ -23,8 +23,8 @@ query listPokemons($limit: Int, $offset: Int) {
     message
 
     count
-    next
-    previous
+    nextOffset
+    prevOffset
 
     results {
       id

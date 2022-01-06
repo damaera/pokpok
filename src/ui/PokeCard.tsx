@@ -1,5 +1,8 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import Skeleton from "react-loading-skeleton";
 import { baseSize, color, typography } from "./constant";
+import { Spacer } from "./Spacer";
 
 const Card = styled.div`
   margin: ${baseSize / 4}px;
@@ -32,16 +35,24 @@ const Name = styled.div`
 `;
 
 type Props = {
-  id: number;
-  name: string;
-  image: string;
+  pokemon?: {
+    id: number;
+    name: string;
+    image: string;
+  };
+  isLoading: boolean;
 };
 
-const PokeCard: React.FC<Props> = (props) => {
+const PokeCard: React.FC<Props> = ({ pokemon, isLoading }) => {
   return (
     <Card>
-      <Image src={props.image} alt={props.name} />
-      <Name>{props.name}</Name>
+      {!isLoading ? (
+        <Image src={pokemon?.image} alt={pokemon?.name} />
+      ) : (
+        <Skeleton style={{ width: 240, height: 240 }} />
+      )}
+      <Spacer size={0.5} />
+      <Name>{!isLoading ? pokemon?.name : <Skeleton />}</Name>
     </Card>
   );
 };
