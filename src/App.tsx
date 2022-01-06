@@ -14,10 +14,7 @@ const Content = styled.section`
   font-size: ${baseSize}px;
 `;
 
-const Container = styled.div`
-  margin: 0 auto;
-  max-width: 1000px;
-`;
+const Container = styled.div``;
 
 function App() {
   return (

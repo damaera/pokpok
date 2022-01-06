@@ -3,15 +3,20 @@ import { Link, NavLink } from "react-router-dom";
 import { baseSize, color, typography } from "./constant";
 
 import { routes } from "../routes";
+import { Spacer } from "./Spacer";
 
 const Wrapper = styled.header`
   background-color: white;
   padding: ${baseSize / 2}px ${baseSize}px;
 
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  flex-direction: column;
+
+  @media (min-width: 540px) {
+    flex-direction: row;
+  }
 `;
 
 const Section = styled.div`
@@ -32,11 +37,6 @@ const Title = styled.div`
   font-weight: 900;
 `;
 
-const WSpacer = styled.div<{ w?: number }>`
-  width: ${(props) => (props.w || 1) * baseSize}px;
-  height: 100%;
-`;
-
 const Header: React.FC<{}> = () => {
   return (
     <Wrapper>
@@ -46,13 +46,14 @@ const Header: React.FC<{}> = () => {
         </Link>
       </Section>
 
+      <Spacer size={0.5} />
       <Section>
         <NavLink to={routes.listPokemons}>
           {({ isActive }) => (
             <LinkItem isActive={isActive}>All Pokemons 📒</LinkItem>
           )}
         </NavLink>
-        <WSpacer />
+        <Spacer size={0.5} />
         <NavLink to={routes.myPokemons}>
           {({ isActive }) => (
             <LinkItem isActive={isActive}>My Pokemons 🔖</LinkItem>

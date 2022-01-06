@@ -13,11 +13,11 @@ const typography = {
 
 const color = {
   background: "#fff",
-  backgroundSecondary: "#eef",
-  backgroundTertiary: "#ccd",
-  foreground: "#223",
-  foregroundSecondary: "#445",
-  foregroundTertiary: "#667",
+  backgroundSecondary: "#ececef",
+  backgroundTertiary: "#cdcdd0",
+  foreground: "#222225",
+  foregroundSecondary: "#444447",
+  foregroundTertiary: "#66666a",
 }
 
 export { baseSize, typography, color }

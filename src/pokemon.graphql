@@ -31,7 +31,6 @@ query listPokemons($limit: Int, $offset: Int) {
       url
       name
       image
-      artwork
     }
   }
 }
