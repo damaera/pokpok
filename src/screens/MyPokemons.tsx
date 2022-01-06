@@ -4,7 +4,7 @@
 // pokemons in this list persist even after a full page reload.
 
 const MyPokemons: React.FC<{}> = () => {
-  return <div>My Pokemons</div>;
+  return <div>This is My Pokemons</div>;
 };
 
 export { MyPokemons };
