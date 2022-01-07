@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import Skeleton from "react-loading-skeleton";
+import { Card } from "../Card";
 import { baseSize, color, typography } from "../constant";
 
 type Props = {
@@ -10,12 +11,26 @@ type Props = {
   isLoading: boolean;
 };
 
+const Wrapper = styled(Card)`
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  min-width: 200px;
+
+  @media (min-width: 400px) {
+    min-width: 400px;
+  }
+`;
+
+const Title = styled.h3`
+  font-size: ${typography.lg};
+  margin: 0;
+  line-height: 1.5;
+  text-align: center;
+`;
+
 const Table = styled.table`
   width: 100%;
-  max-width: 700px;
-  padding: ${baseSize}px;
-  border-radius: ${baseSize / 2}px;
-  background-color: ${color.background};
 `;
 
 const Td = styled.td`
@@ -62,54 +77,62 @@ const PokeBaseStats: React.FC<Props> = (props) => {
 
   if (props.isLoading) {
     return (
-      <Table>
-        {[0, 1, 2, 3, 4, 5].map((i) => (
-          <tr key={i}>
+      <Wrapper>
+        <Title>
+          <Skeleton />
+        </Title>
+        <Table>
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <tr key={i}>
+              <NameTd>
+                <Skeleton />
+              </NameTd>
+              <ValueTd>
+                <Skeleton />
+              </ValueTd>
+              <BarWrapperTd>
+                <BarBg>
+                  <Skeleton />
+                </BarBg>
+              </BarWrapperTd>
+            </tr>
+          ))}
+          <tr>
             <NameTd>
               <Skeleton />
             </NameTd>
             <ValueTd>
               <Skeleton />
             </ValueTd>
-            <BarWrapperTd>
-              <BarBg>
-                <Skeleton />
-              </BarBg>
-            </BarWrapperTd>
           </tr>
-        ))}
-        <tr>
-          <NameTd>
-            <Skeleton />
-          </NameTd>
-          <ValueTd>
-            <Skeleton />
-          </ValueTd>
-        </tr>
-      </Table>
+        </Table>
+      </Wrapper>
     );
   }
 
   return (
-    <Table>
-      {props.stats.map(({ name, value }) => {
-        return (
-          <tr key={name}>
-            <NameTd>{name.replace("-", " ")}</NameTd>
-            <ValueTd>{value}</ValueTd>
-            <BarWrapperTd>
-              <BarBg>
-                <Bar value={value} />
-              </BarBg>
-            </BarWrapperTd>
-          </tr>
-        );
-      })}
-      <tr>
-        <NameTd>total</NameTd>
-        <ValueTd>{totalStats}</ValueTd>
-      </tr>
-    </Table>
+    <Wrapper>
+      <Title>Base stats</Title>
+      <Table>
+        {props.stats.map(({ name, value }) => {
+          return (
+            <tr key={name}>
+              <NameTd>{name.replace("-", " ")}</NameTd>
+              <ValueTd>{value}</ValueTd>
+              <BarWrapperTd>
+                <BarBg>
+                  <Bar value={value} />
+                </BarBg>
+              </BarWrapperTd>
+            </tr>
+          );
+        })}
+        <tr>
+          <NameTd>total</NameTd>
+          <ValueTd>{totalStats}</ValueTd>
+        </tr>
+      </Table>
+    </Wrapper>
   );
 };
 

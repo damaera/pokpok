@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useListPokemonsQuery } from "../generated/graphql";
 import { routes } from "../routes";
+import { Button } from "../ui/Button";
 import { baseSize, color, typography } from "../ui/constant";
 import { PokeCard } from "../ui/pokemon/PokeCard";
 import { Spacer } from "../ui/Spacer";
@@ -82,7 +83,7 @@ const ListPokemons: React.FC<{}> = () => {
       {data?.pokemons?.nextOffset && (
         <LoadMoreWrapper>
           <Spacer />
-          <LoadMoreButton
+          <Button
             onClick={(_) =>
               fetchMore({
                 variables: {
@@ -93,7 +94,7 @@ const ListPokemons: React.FC<{}> = () => {
             }
           >
             Load more pokemons ➡️
-          </LoadMoreButton>
+          </Button>
           <Spacer />
         </LoadMoreWrapper>
       )}

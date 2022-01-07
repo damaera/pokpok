@@ -6,40 +6,85 @@
 // Pokemon List’. You can catch the same pokemon multiple times but need to
 // give a different nickname for each pokemon.
 
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
 import { useParams } from "react-router-dom";
-import { useGetPokemonQuery } from "../generated/graphql";
+import { apolloClient } from "../apollo";
+import { PokemonItem, useGetPokemonQuery } from "../generated/graphql";
 import { PokeBaseStats } from "../ui/pokemon/PokeBaseStats";
+import { PokeCard } from "../ui/pokemon/PokeCard";
+import { PokeCatcher } from "../ui/pokemon/PokeCatcher";
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 100%;
+`;
 
 const PokemonDetail: React.FC<{}> = () => {
   const params = useParams();
   const pokemonId = params.id || "";
 
   const { loading, error, data } = useGetPokemonQuery({
-    notifyOnNetworkStatusChange: true,
     variables: {
       name: pokemonId,
     },
   });
 
-  console.log(data);
+  if (error) {
+    console.log(error.message);
+    return <div>Error</div>;
+  }
+
+  const cachedPokemonItem: PokemonItem | null = apolloClient.readFragment({
+    id: `PokemonItem:${params.id}`,
+    fragment: gql`
+      fragment ThisPokemon on PokemonItem {
+        id
+        name
+        image
+      }
+    `,
+  });
 
   return (
-    <div>
-      Pokemon Detail
-      <div>{data?.pokemon?.name}</div>
-      <div>
-        <h3>Base stats</h3>
-        <PokeBaseStats
-          isLoading={loading}
-          stats={
-            data?.pokemon?.stats?.map((s) => ({
-              name: s?.stat?.name || "",
-              value: s?.base_stat || 0,
-            })) || []
-          }
+    <Wrapper>
+      {cachedPokemonItem && loading ? (
+        <PokeCard
+          isLoading={false}
+          pokemon={{
+            id: cachedPokemonItem?.id || -1,
+            name: cachedPokemonItem?.name || "",
+            image: cachedPokemonItem?.image || "",
+          }}
         />
-      </div>
-    </div>
+      ) : (
+        <PokeCard
+          isLoading={loading}
+          pokemon={{
+            id: data?.pokemon?.id || -1,
+            name: data?.pokemon?.name || "",
+            image: data?.pokemon?.sprites?.front_default || "",
+          }}
+        />
+      )}
+      <PokeCatcher
+        onCatchPokemon={(isSuccess) => console.log(isSuccess)}
+        isLoading={loading}
+      />
+      <PokeBaseStats
+        isLoading={loading}
+        stats={
+          data?.pokemon?.stats?.map((s) => ({
+            name: s?.stat?.name || "",
+            value: s?.base_stat || 0,
+          })) || []
+        }
+      />
+    </Wrapper>
   );
 };
 

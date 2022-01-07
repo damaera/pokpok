@@ -5,12 +5,46 @@ query getPokemon($name: String!) {
 
     id
     name
+
+    height
     weight
+
+    abilities {
+      ability {
+        id
+        url
+        name
+      }
+      is_hidden
+      slot
+    }
+
+    base_experience
 
     stats {
       base_stat
       effort
       stat {
+        name
+      }
+    }
+
+    sprites {
+      back_shiny
+      back_female
+      back_default
+      back_shiny_female
+      front_default
+      front_female
+      front_shiny
+      front_shiny_female
+    }
+
+    types {
+      slot
+      type {
+        id
+        url
         name
       }
     }

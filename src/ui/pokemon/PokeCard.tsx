@@ -13,10 +13,10 @@ const Card = styled.div`
   opacity: 1;
   position: relative;
   transition: top 0.1s, opacity 0.2s;
-  top: 0px;
+  /* top: 0px; */
 
   &:hover {
-    top: -4px;
+    /* top: -4px; */
     opacity: 0.8;
   }
 `;

@@ -4,37 +4,13 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
-
-const client = new ApolloClient({
-  uri: "https://graphql-pokeapi.graphcdn.app/",
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          pokemons: {
-            // Don't cache separate results based on
-            // any of this field's arguments.
-            keyArgs: false,
-            // Concatenate the incoming list items with
-            // the existing list items.
-            merge(existing = {}, incoming) {
-              return {
-                ...incoming,
-                results: [...(existing?.results || []), ...incoming?.results],
-              };
-            },
-          },
-        },
-      },
-    },
-  }),
-});
+import { apolloClient } from "./apollo";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
