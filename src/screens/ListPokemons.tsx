@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useListPokemonsQuery } from "../generated/graphql";
 import { routes } from "../routes";
 import { baseSize, color, typography } from "../ui/constant";
-import { PokeCard } from "../ui/PokeCard";
+import { PokeCard } from "../ui/pokemon/PokeCard";
 import { Spacer } from "../ui/Spacer";
 
 const PokemonWrapper = styled.div`
@@ -44,7 +44,7 @@ const LoadMoreButton = styled.button`
   }
 `;
 
-const PAGE_LIMIT = 30;
+const PAGE_LIMIT = 60;
 
 const ListPokemons: React.FC<{}> = () => {
   const { loading, error, data, fetchMore } = useListPokemonsQuery({

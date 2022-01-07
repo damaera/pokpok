@@ -1,8 +1,7 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Skeleton from "react-loading-skeleton";
-import { baseSize, color, typography } from "./constant";
-import { Spacer } from "./Spacer";
+import { baseSize, color, typography } from "../constant";
+import { Spacer } from "../Spacer";
 
 const Card = styled.div`
   margin: ${baseSize / 4}px;
