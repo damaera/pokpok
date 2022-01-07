@@ -5,6 +5,7 @@
 // the user can give the Pokemon a nickname and add that Pokemon to `My
 // Pokemon List’. You can catch the same pokemon multiple times but need to
 // give a different nickname for each pokemon.
+
 const PokemonDetail: React.FC<{}> = () => {
   return <div>Pokemon Detail</div>;
 };

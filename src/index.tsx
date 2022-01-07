@@ -22,8 +22,7 @@ const client = new ApolloClient({
             merge(existing = {}, incoming) {
               return {
                 ...incoming,
-
-                results: [...(existing?.results || []), ...incoming.results],
+                results: [...(existing?.results || []), ...incoming?.results],
               };
             },
           },
