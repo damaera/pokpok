@@ -82,29 +82,31 @@ const PokeBaseStats: React.FC<Props> = (props) => {
           <Skeleton />
         </Title>
         <Table>
-          {[0, 1, 2, 3, 4, 5].map((i) => (
-            <tr key={i}>
+          <tbody>
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <tr key={i}>
+                <NameTd>
+                  <Skeleton />
+                </NameTd>
+                <ValueTd>
+                  <Skeleton />
+                </ValueTd>
+                <BarWrapperTd>
+                  <BarBg>
+                    <Skeleton />
+                  </BarBg>
+                </BarWrapperTd>
+              </tr>
+            ))}
+            <tr>
               <NameTd>
                 <Skeleton />
               </NameTd>
               <ValueTd>
                 <Skeleton />
               </ValueTd>
-              <BarWrapperTd>
-                <BarBg>
-                  <Skeleton />
-                </BarBg>
-              </BarWrapperTd>
             </tr>
-          ))}
-          <tr>
-            <NameTd>
-              <Skeleton />
-            </NameTd>
-            <ValueTd>
-              <Skeleton />
-            </ValueTd>
-          </tr>
+          </tbody>
         </Table>
       </Wrapper>
     );
@@ -114,23 +116,25 @@ const PokeBaseStats: React.FC<Props> = (props) => {
     <Wrapper>
       <Title>Base stats</Title>
       <Table>
-        {props.stats.map(({ name, value }) => {
-          return (
-            <tr key={name}>
-              <NameTd>{name.replace("-", " ")}</NameTd>
-              <ValueTd>{value}</ValueTd>
-              <BarWrapperTd>
-                <BarBg>
-                  <Bar value={value} />
-                </BarBg>
-              </BarWrapperTd>
-            </tr>
-          );
-        })}
-        <tr>
-          <NameTd>total</NameTd>
-          <ValueTd>{totalStats}</ValueTd>
-        </tr>
+        <tbody>
+          {props.stats.map(({ name, value }) => {
+            return (
+              <tr key={name}>
+                <NameTd>{name.replace("-", " ")}</NameTd>
+                <ValueTd>{value}</ValueTd>
+                <BarWrapperTd>
+                  <BarBg>
+                    <Bar value={value} />
+                  </BarBg>
+                </BarWrapperTd>
+              </tr>
+            );
+          })}
+          <tr>
+            <NameTd>total</NameTd>
+            <ValueTd>{totalStats}</ValueTd>
+          </tr>
+        </tbody>
       </Table>
     </Wrapper>
   );

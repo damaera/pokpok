@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 
 import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
-import { apolloClient } from "./apollo";
+import { apolloClient } from "./lib/apollo";
 
 ReactDOM.render(
   <React.StrictMode>

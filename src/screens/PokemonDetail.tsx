@@ -9,11 +9,12 @@
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { useParams } from "react-router-dom";
-import { apolloClient } from "../apollo";
+import { apolloClient } from "../lib/apollo";
 import { PokemonItem, useGetPokemonQuery } from "../generated/graphql";
 import { PokeBaseStats } from "../ui/pokemon/PokeBaseStats";
 import { PokeCard } from "../ui/pokemon/PokeCard";
 import { PokeCatcher } from "../ui/pokemon/PokeCatcher";
+import { persistentStore } from "../lib/storage";
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,7 +36,6 @@ const PokemonDetail: React.FC<{}> = () => {
   });
 
   if (error) {
-    console.log(error.message);
     return <div>Error</div>;
   }
 
@@ -72,8 +72,26 @@ const PokemonDetail: React.FC<{}> = () => {
         />
       )}
       <PokeCatcher
-        onCatchPokemon={(isSuccess) => console.log(isSuccess)}
-        isLoading={loading}
+        onSavePokemon={(nickname) => {
+          let pokemon = {
+            id: data?.pokemon?.id || -1,
+            name: data?.pokemon?.name || "",
+            image: data?.pokemon?.sprites?.front_default || "",
+          };
+          if (loading && cachedPokemonItem) {
+            pokemon = {
+              id: cachedPokemonItem?.id || -1,
+              name: cachedPokemonItem?.name || "",
+              image: cachedPokemonItem?.image || "",
+            };
+          }
+          persistentStore.savePokemon({
+            ...pokemon,
+            id: pokemon.id + "",
+            nickname,
+          });
+        }}
+        isLoading={!!cachedPokemonItem || loading}
       />
       <PokeBaseStats
         isLoading={loading}
