@@ -14,7 +14,7 @@ const parse = (str: string | null, empty = {}) => {
   }
 }
 
-type MyPokemonItem = {
+export type MyPokemonItem = {
   id: string,
   name: string,
   nickname: string,
@@ -37,10 +37,18 @@ const getPokemonsById: (id: string) => Array<MyPokemonItem> = (id) => {
   return Object.values(allPokemons).filter(p => p.id === id)
 }
 
-const savePokemon: (pokemon: MyPokemonItem) => void = (pokemon) => {
+const savePokemon: (pokemon: MyPokemonItem) => Record<string, MyPokemonItem> = (pokemon) => {
   const allPokemons = listAllMyPokemons()
   const newAllPokemons: Record<string, MyPokemonItem> = { ...allPokemons, [pokemon.nickname]: pokemon }
   storage.setItem(KEY, JSON.stringify(newAllPokemons))
+  return newAllPokemons
+}
+
+const removePokemonByNickname: (nickname: string) => Record<string, MyPokemonItem> = (nickname) => {
+  const allPokemons = listAllMyPokemons()
+  delete allPokemons[nickname]
+  storage.setItem(KEY, JSON.stringify(allPokemons))
+  return allPokemons
 }
 
 
@@ -48,7 +56,8 @@ const persistentStore = {
   listAllMyPokemons,
   getPokemonByNickname,
   getPokemonsById,
-  savePokemon
+  savePokemon,
+  removePokemonByNickname,
 }
 
 export { persistentStore }

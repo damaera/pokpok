@@ -1,25 +1,10 @@
 import styled from "@emotion/styled";
 import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
+import { routes } from "../../routes";
+import { Card } from "../Card";
 import { baseSize, color, typography } from "../constant";
 import { Spacer } from "../Spacer";
-
-const Card = styled.div`
-  margin: ${baseSize / 4}px;
-  padding: ${baseSize}px;
-
-  background: ${color.background};
-  border-radius: ${baseSize / 2}px;
-  border: solid 2px ${color.backgroundSecondary};
-  opacity: 1;
-  position: relative;
-  transition: top 0.1s, opacity 0.2s;
-  /* top: 0px; */
-
-  &:hover {
-    /* top: -4px; */
-    opacity: 0.8;
-  }
-`;
 
 const Image = styled.img`
   width: 240px;
@@ -32,6 +17,21 @@ const Name = styled.div`
   text-transform: capitalize;
   text-align: center;
 `;
+const TotalOwned = styled.div`
+  position: absolute;
+  top: ${baseSize}px;
+  right: ${baseSize}px;
+  padding: ${baseSize / 4}px ${baseSize / 2}px;
+  border-radius: ${baseSize}px;
+
+  font-weight: bold;
+  font-size: ${typography.xs}px;
+  text-transform: uppercase;
+  text-align: center;
+
+  background-color: ${color.foregroundSecondary};
+  color: ${color.backgroundSecondary};
+`;
 
 type Props = {
   pokemon?: {
@@ -40,11 +40,18 @@ type Props = {
     image: string;
   };
   isLoading: boolean;
+  isHoverable?: boolean;
+  totalOwned?: number;
 };
 
-const PokeCard: React.FC<Props> = ({ pokemon, isLoading }) => {
+const PokeCard: React.FC<Props> = ({
+  pokemon,
+  isLoading,
+  totalOwned,
+  isHoverable,
+}) => {
   return (
-    <Card>
+    <Card isHoverable={isHoverable || false}>
       {!isLoading ? (
         <Image src={pokemon?.image} alt={pokemon?.name} />
       ) : (
@@ -52,6 +59,11 @@ const PokeCard: React.FC<Props> = ({ pokemon, isLoading }) => {
       )}
       <Spacer size={0.5} />
       <Name>{!isLoading ? pokemon?.name : <Skeleton />}</Name>
+      {!!totalOwned ? (
+        <Link to={routes.myPokemons + `#${pokemon?.id}`}>
+          <TotalOwned>own {totalOwned}</TotalOwned>
+        </Link>
+      ) : null}
     </Card>
   );
 };

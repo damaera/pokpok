@@ -2,12 +2,12 @@
 // total. When a Pokemon is clicked, it should go to that Pokemon Detail page.
 
 import styled from "@emotion/styled";
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useListPokemonsQuery } from "../generated/graphql";
+import { persistentStore } from "../lib/storage";
 import { routes } from "../routes";
-import { Button } from "../ui/Button";
-import { baseSize, color, typography } from "../ui/constant";
+import { SecondaryButton } from "../ui/Button";
 import { PokeCard } from "../ui/pokemon/PokeCard";
 import { Spacer } from "../ui/Spacer";
 
@@ -23,26 +23,6 @@ const LoadMoreWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const LoadMoreButton = styled.button`
-  padding: ${baseSize / 1.5}px ${baseSize}px;
-  border-radius: ${baseSize / 2}px;
-  border: none;
-  outline: none;
-  //
-  background-color: ${color.foreground};
-  opacity: 1;
-  //
-  font-size: ${typography.md}px;
-  font-weight: bold;
-  color: ${color.background};
-  //
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
-  }
 `;
 
 const PAGE_LIMIT = 60;
@@ -69,6 +49,10 @@ const ListPokemons: React.FC<{}> = () => {
             key={pokemon?.id || 0}
           >
             <PokeCard
+              isHoverable
+              totalOwned={
+                persistentStore.getPokemonsById(pokemon?.id + "" || "").length
+              }
               pokemon={{
                 id: pokemon?.id || 0,
                 name: pokemon?.name || "",
@@ -83,7 +67,7 @@ const ListPokemons: React.FC<{}> = () => {
       {data?.pokemons?.nextOffset && (
         <LoadMoreWrapper>
           <Spacer />
-          <Button
+          <SecondaryButton
             onClick={(_) =>
               fetchMore({
                 variables: {
@@ -94,7 +78,7 @@ const ListPokemons: React.FC<{}> = () => {
             }
           >
             Load more pokemons ➡️
-          </Button>
+          </SecondaryButton>
           <Spacer />
         </LoadMoreWrapper>
       )}

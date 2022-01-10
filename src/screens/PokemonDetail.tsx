@@ -50,28 +50,32 @@ const PokemonDetail: React.FC<{}> = () => {
     `,
   });
 
+  const pokemon =
+    cachedPokemonItem && loading
+      ? {
+          id: cachedPokemonItem?.id || -1,
+          name: cachedPokemonItem?.name || "",
+          image: cachedPokemonItem?.image || "",
+        }
+      : {
+          id: data?.pokemon?.id || -1,
+          name: data?.pokemon?.name || "",
+          image: data?.pokemon?.sprites?.front_default || "",
+        };
+
   return (
     <Wrapper>
-      {cachedPokemonItem && loading ? (
-        <PokeCard
-          isLoading={false}
-          pokemon={{
-            id: cachedPokemonItem?.id || -1,
-            name: cachedPokemonItem?.name || "",
-            image: cachedPokemonItem?.image || "",
-          }}
-        />
-      ) : (
-        <PokeCard
-          isLoading={loading}
-          pokemon={{
-            id: data?.pokemon?.id || -1,
-            name: data?.pokemon?.name || "",
-            image: data?.pokemon?.sprites?.front_default || "",
-          }}
-        />
-      )}
+      <PokeCard
+        isLoading={cachedPokemonItem ? false : loading}
+        totalOwned={
+          persistentStore.getPokemonsById(pokemon.id + "" || "").length
+        }
+        pokemon={pokemon}
+      />
       <PokeCatcher
+        checkNicknameExist={(nickname) => {
+          return !!persistentStore.getPokemonByNickname(nickname);
+        }}
         onSavePokemon={(nickname) => {
           let pokemon = {
             id: data?.pokemon?.id || -1,

@@ -3,9 +3,11 @@ import { useState } from "react";
 import { Button, SecondaryButton } from "../Button";
 import { Card } from "../Card";
 import { Input } from "../Input";
+import { Spacer } from "../Spacer";
 
 type Props = {
   onSavePokemon: (nickname: string) => void;
+  checkNicknameExist: (nickname: string) => boolean;
   isLoading: boolean;
 };
 
@@ -41,33 +43,40 @@ const PokeCatcher: React.FC<Props> = (props) => {
     }, 1000);
   };
 
+  const isNicknameExist = props.checkNicknameExist(nicknameInput);
+
   const catchInputEl = (
     <>
       <form
         onSubmit={(e) => {
           e.preventDefault();
 
-          props.onSavePokemon(nicknameInput);
+          if (!props.checkNicknameExist?.(nicknameInput)) {
+            props.onSavePokemon(nicknameInput);
 
-          setCatchState(CatchState.Success);
-          setNicknameInput("");
+            setCatchState(CatchState.Success);
+            setNicknameInput("");
+          }
         }}
       >
         <h3>Catch success</h3>
-        <p>Give it a name!</p>
         <Input
           placeholder="Set pokemon nickname"
           onChange={(e) => {
             setNicknameInput(e.target.value);
           }}
           value={nicknameInput}
+          minLength={2}
         />
-        <br />
+        {isNicknameExist ? (
+          <strong style={{ color: "red" }}>Nickname already exist</strong>
+        ) : (
+          <strong>Give it a name!</strong>
+        )}
+        <Spacer size={0.5} />
         <Button type="submit">Save pokemon</Button>
-        <br />
-        <br />
-        <br />
       </form>
+      <Spacer size={2} />
       <SecondaryButton onClick={(_) => setCatchState(CatchState.Init)}>
         Cancel
       </SecondaryButton>

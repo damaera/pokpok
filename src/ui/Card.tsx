@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { baseSize, color } from "./constant";
 
-const Card = styled.div`
+const Card = styled.div<{ isHoverable?: boolean }>`
   height: 330px;
   margin: ${baseSize / 4}px;
   padding: ${baseSize}px;
@@ -14,7 +14,7 @@ const Card = styled.div`
   transition: opacity 0.2s;
 
   &:hover {
-    opacity: 0.8;
+    opacity: ${(props) => (props.isHoverable ? 0.8 : 1)};
   }
 `;
 
