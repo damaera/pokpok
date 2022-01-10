@@ -1,14 +1,13 @@
 import styled from "@emotion/styled";
 import Skeleton from "react-loading-skeleton";
-import { Link } from "react-router-dom";
-import { routes } from "../../routes";
 import { Card } from "../Card";
 import { baseSize, color, typography } from "../constant";
 import { Spacer } from "../Spacer";
 
 const Image = styled.img`
-  width: 240px;
+  width: 100%;
   height: 240px;
+  object-fit: contain;
 `;
 
 const Name = styled.div`
@@ -51,19 +50,15 @@ const PokeCard: React.FC<Props> = ({
   isHoverable,
 }) => {
   return (
-    <Card isHoverable={isHoverable || false}>
+    <Card isHoverable={isHoverable || false} style={{ width: 300 }}>
       {!isLoading ? (
         <Image src={pokemon?.image} alt={pokemon?.name} />
       ) : (
-        <Skeleton style={{ width: 240, height: 240 }} />
+        <Skeleton style={{ height: 240 }} />
       )}
       <Spacer size={0.5} />
       <Name>{!isLoading ? pokemon?.name : <Skeleton />}</Name>
-      {!!totalOwned ? (
-        <Link to={routes.myPokemons + `#${pokemon?.id}`}>
-          <TotalOwned>own {totalOwned}</TotalOwned>
-        </Link>
-      ) : null}
+      {!!totalOwned ? <TotalOwned>own {totalOwned}</TotalOwned> : null}
     </Card>
   );
 };

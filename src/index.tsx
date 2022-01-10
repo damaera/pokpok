@@ -12,11 +12,11 @@ import { PersistStoreProvider } from "./lib/PersistStoreContext";
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
-      <PersistStoreProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <PersistStoreProvider>
           <App />
-        </BrowserRouter>
-      </PersistStoreProvider>
+        </PersistStoreProvider>
+      </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")

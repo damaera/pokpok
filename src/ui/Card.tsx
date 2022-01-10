@@ -12,6 +12,7 @@ const Card = styled.div<{ isHoverable?: boolean }>`
   opacity: 1;
   position: relative;
   transition: opacity 0.2s;
+  overflow: auto;
 
   &:hover {
     opacity: ${(props) => (props.isHoverable ? 0.8 : 1)};

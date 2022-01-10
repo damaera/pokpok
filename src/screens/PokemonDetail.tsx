@@ -16,6 +16,10 @@ import { PokeCard } from "../ui/pokemon/PokeCard";
 import { PokeCatcher } from "../ui/pokemon/PokeCatcher";
 import { usePersistStore } from "../lib/PersistStoreContext";
 import { ErrorState } from "../ui/ErrorState";
+import { Card } from "../ui/Card";
+import { TYPES_EMOJI } from "../lib/pokemon";
+import { typography } from "../ui/constant";
+import { Spacer } from "../ui/Spacer";
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,17 +30,26 @@ const Wrapper = styled.div`
   max-width: 100%;
 `;
 
+const Item = styled.div`
+  text-transform: capitalize;
+  font-size: ${typography.sm}px;
+`;
+const CardTitle = styled.div`
+  font-weight: bold;
+  font-size: ${typography.md}px;
+`;
+
 const PokemonDetail: React.FC<{}> = () => {
   const params = useParams();
   const pokemonId = params.id || "";
+  const persistStore = usePersistStore();
 
   const { loading, error, data } = useGetPokemonQuery({
+    fetchPolicy: "network-only",
     variables: {
       name: pokemonId,
     },
   });
-
-  const persistStore = usePersistStore();
 
   const cachedPokemonItem: PokemonItem | null = apolloClient.readFragment({
     id: `PokemonItem:${params.id}`,
@@ -104,6 +117,30 @@ const PokemonDetail: React.FC<{}> = () => {
         }}
         isLoading={!!cachedPokemonItem || loading}
       />
+      <Card style={{ width: 300 }}>
+        <CardTitle>Types</CardTitle>
+        <Spacer size={0.5} />
+        {data?.pokemon?.types?.map((t, i) => {
+          return (
+            <Item key={i}>
+              {t?.type?.name} {TYPES_EMOJI[t?.type?.name || "unknown"]}
+            </Item>
+          );
+        })}
+        <Spacer />
+        <CardTitle>Abilities</CardTitle>
+        <Spacer size={0.5} />
+        {data?.pokemon?.abilities?.map((a, i) => {
+          return <Item key={i}>{a?.ability?.name?.replace("-", " ")} </Item>;
+        })}
+      </Card>
+      <Card style={{ width: 300 }}>
+        <CardTitle>Moves</CardTitle>
+        <Spacer size={0.5} />
+        {data?.pokemon?.moves?.map((a, i) => {
+          return <Item key={i}>{a?.move?.name?.replace("-", " ")} </Item>;
+        })}
+      </Card>
       <PokeBaseStats
         isLoading={loading}
         stats={

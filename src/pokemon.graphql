@@ -11,8 +11,6 @@ query getPokemon($name: String!) {
 
     abilities {
       ability {
-        id
-        url
         name
       }
       is_hidden
@@ -43,8 +41,12 @@ query getPokemon($name: String!) {
     types {
       slot
       type {
-        id
         url
+        name
+      }
+    }
+    moves {
+      move {
         name
       }
     }

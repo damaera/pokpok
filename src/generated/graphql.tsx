@@ -268,7 +268,7 @@ export type GetPokemonQueryVariables = Exact<{
 }>;
 
 
-export type GetPokemonQuery = { __typename?: 'Query', pokemon?: { __typename?: 'Pokemon', status?: boolean | null | undefined, message?: string | null | undefined, id?: number | null | undefined, name?: string | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, base_experience?: number | null | undefined, abilities?: Array<{ __typename?: 'Ability', is_hidden?: boolean | null | undefined, slot?: number | null | undefined, ability?: { __typename?: 'BaseName', id?: number | null | undefined, url?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, stats?: Array<{ __typename?: 'Stat', base_stat?: number | null | undefined, effort?: number | null | undefined, stat?: { __typename?: 'BaseName', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, sprites?: { __typename?: 'Sprite', back_shiny?: string | null | undefined, back_female?: string | null | undefined, back_default?: string | null | undefined, back_shiny_female?: string | null | undefined, front_default?: string | null | undefined, front_female?: string | null | undefined, front_shiny?: string | null | undefined, front_shiny_female?: string | null | undefined } | null | undefined, types?: Array<{ __typename?: 'Type', slot?: number | null | undefined, type?: { __typename?: 'BaseName', id?: number | null | undefined, url?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type GetPokemonQuery = { __typename?: 'Query', pokemon?: { __typename?: 'Pokemon', status?: boolean | null | undefined, message?: string | null | undefined, id?: number | null | undefined, name?: string | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, base_experience?: number | null | undefined, abilities?: Array<{ __typename?: 'Ability', is_hidden?: boolean | null | undefined, slot?: number | null | undefined, ability?: { __typename?: 'BaseName', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, stats?: Array<{ __typename?: 'Stat', base_stat?: number | null | undefined, effort?: number | null | undefined, stat?: { __typename?: 'BaseName', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, sprites?: { __typename?: 'Sprite', back_shiny?: string | null | undefined, back_female?: string | null | undefined, back_default?: string | null | undefined, back_shiny_female?: string | null | undefined, front_default?: string | null | undefined, front_female?: string | null | undefined, front_shiny?: string | null | undefined, front_shiny_female?: string | null | undefined } | null | undefined, types?: Array<{ __typename?: 'Type', slot?: number | null | undefined, type?: { __typename?: 'BaseName', url?: string | null | undefined, name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined, moves?: Array<{ __typename?: 'Move', move?: { __typename?: 'BaseName', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type ListPokemonsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
@@ -290,8 +290,6 @@ export const GetPokemonDocument = gql`
     weight
     abilities {
       ability {
-        id
-        url
         name
       }
       is_hidden
@@ -318,8 +316,12 @@ export const GetPokemonDocument = gql`
     types {
       slot
       type {
-        id
         url
+        name
+      }
+    }
+    moves {
+      move {
         name
       }
     }
