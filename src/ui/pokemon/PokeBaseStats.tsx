@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import React, { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Card } from "../Card";
 import { baseSize, color, typography } from "../constant";
@@ -68,7 +69,23 @@ const Bar = styled.div<{ value: number }>`
   width: ${(props) => props.value / 2}%;
   background: hsla(${(props) => props.value}, 100%, 40%, 1);
   border-radius: ${baseSize / 2}px;
+
+  transition: background 600ms, width 600ms;
 `;
+
+const AnimatedBar: React.FC<{ value: number }> = ({ value }) => {
+  const [val, setNewVal] = useState(0);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setNewVal(value);
+    }, 100);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  });
+  return <Bar value={val} />;
+};
 
 const PokeBaseStats: React.FC<Props> = (props) => {
   const totalStats = props.stats
@@ -124,7 +141,7 @@ const PokeBaseStats: React.FC<Props> = (props) => {
                 <ValueTd>{value}</ValueTd>
                 <BarWrapperTd>
                   <BarBg>
-                    <Bar value={value} />
+                    <AnimatedBar value={value} />
                   </BarBg>
                 </BarWrapperTd>
               </tr>

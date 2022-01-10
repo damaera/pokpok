@@ -15,6 +15,7 @@ import { PokeBaseStats } from "../ui/pokemon/PokeBaseStats";
 import { PokeCard } from "../ui/pokemon/PokeCard";
 import { PokeCatcher } from "../ui/pokemon/PokeCatcher";
 import { usePersistStore } from "../lib/PersistStoreContext";
+import { ErrorState } from "../ui/ErrorState";
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,10 +37,6 @@ const PokemonDetail: React.FC<{}> = () => {
   });
 
   const persistStore = usePersistStore();
-
-  if (error) {
-    return <div>Error</div>;
-  }
 
   const cachedPokemonItem: PokemonItem | null = apolloClient.readFragment({
     id: `PokemonItem:${params.id}`,
@@ -65,6 +62,14 @@ const PokemonDetail: React.FC<{}> = () => {
           image: data?.pokemon?.sprites?.front_default || "",
         };
 
+  if (error) {
+    return (
+      <ErrorState
+        title="Oh no 😢"
+        subtitle={error.message || "Something wrong happened"}
+      />
+    );
+  }
   return (
     <Wrapper>
       <PokeCard

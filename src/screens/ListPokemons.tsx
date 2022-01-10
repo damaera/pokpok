@@ -8,6 +8,7 @@ import { useListPokemonsQuery } from "../generated/graphql";
 import { usePersistStore } from "../lib/PersistStoreContext";
 import { routes } from "../routes";
 import { SecondaryButton } from "../ui/Button";
+import { ErrorState } from "../ui/ErrorState";
 import { PokeCard } from "../ui/pokemon/PokeCard";
 import { Spacer } from "../ui/Spacer";
 
@@ -41,6 +42,15 @@ const ListPokemons: React.FC<{}> = () => {
   ));
 
   const persistStore = usePersistStore();
+
+  if (error) {
+    return (
+      <ErrorState
+        title="Oh no 😢"
+        subtitle={error.message || "Something wrong happened"}
+      />
+    );
+  }
 
   return (
     <>
