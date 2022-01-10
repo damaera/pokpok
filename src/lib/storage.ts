@@ -1,3 +1,4 @@
+
 const storage = window.localStorage
 
 const KEY = "pokemons"
@@ -52,7 +53,7 @@ const removePokemonByNickname: (nickname: string) => Record<string, MyPokemonIte
 }
 
 
-const persistentStore = {
+const persistentStorage = {
   listAllMyPokemons,
   getPokemonByNickname,
   getPokemonsById,
@@ -60,4 +61,5 @@ const persistentStore = {
   removePokemonByNickname,
 }
 
-export { persistentStore }
+
+export { persistentStorage }

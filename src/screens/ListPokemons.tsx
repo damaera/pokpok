@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useListPokemonsQuery } from "../generated/graphql";
-import { persistentStore } from "../lib/storage";
+import { usePersistStore } from "../lib/PersistStoreContext";
 import { routes } from "../routes";
 import { SecondaryButton } from "../ui/Button";
 import { PokeCard } from "../ui/pokemon/PokeCard";
@@ -40,6 +40,8 @@ const ListPokemons: React.FC<{}> = () => {
     <PokeCard key={i} isLoading={true} />
   ));
 
+  const persistStore = usePersistStore();
+
   return (
     <>
       <PokemonWrapper>
@@ -51,7 +53,8 @@ const ListPokemons: React.FC<{}> = () => {
             <PokeCard
               isHoverable
               totalOwned={
-                persistentStore.getPokemonsById(pokemon?.id + "" || "").length
+                persistStore.actions.getPokemonsById(pokemon?.id + "" || "")
+                  .length
               }
               pokemon={{
                 id: pokemon?.id || 0,

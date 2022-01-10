@@ -14,7 +14,7 @@ import { PokemonItem, useGetPokemonQuery } from "../generated/graphql";
 import { PokeBaseStats } from "../ui/pokemon/PokeBaseStats";
 import { PokeCard } from "../ui/pokemon/PokeCard";
 import { PokeCatcher } from "../ui/pokemon/PokeCatcher";
-import { persistentStore } from "../lib/storage";
+import { usePersistStore } from "../lib/PersistStoreContext";
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,6 +34,8 @@ const PokemonDetail: React.FC<{}> = () => {
       name: pokemonId,
     },
   });
+
+  const persistStore = usePersistStore();
 
   if (error) {
     return <div>Error</div>;
@@ -68,13 +70,13 @@ const PokemonDetail: React.FC<{}> = () => {
       <PokeCard
         isLoading={cachedPokemonItem ? false : loading}
         totalOwned={
-          persistentStore.getPokemonsById(pokemon.id + "" || "").length
+          persistStore.actions.getPokemonsById(pokemon.id + "" || "").length
         }
         pokemon={pokemon}
       />
       <PokeCatcher
         checkNicknameExist={(nickname) => {
-          return !!persistentStore.getPokemonByNickname(nickname);
+          return !!persistStore.actions.getPokemonByNickname(nickname);
         }}
         onSavePokemon={(nickname) => {
           let pokemon = {
@@ -89,7 +91,7 @@ const PokemonDetail: React.FC<{}> = () => {
               image: cachedPokemonItem?.image || "",
             };
           }
-          persistentStore.savePokemon({
+          persistStore.actions.savePokemon({
             ...pokemon,
             id: pokemon.id + "",
             nickname,

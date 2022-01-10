@@ -4,8 +4,9 @@
 // pokemons in this list persist even after a full page reload.
 
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
-import { MyPokemonItem, persistentStore } from "../lib/storage";
+import { useState } from "react";
+import { usePersistStore } from "../lib/PersistStoreContext";
+import { MyPokemonItem } from "../lib/storage";
 import { baseSize, color, typography } from "../ui/constant";
 import { PokeCard } from "../ui/pokemon/PokeCard";
 
@@ -100,15 +101,9 @@ const NicknameItem: React.FC<{
 };
 
 const MyPokemons: React.FC<{}> = () => {
-  const [allMyPokemonsPersist, setAllMyPokemons] = useState({});
+  const persistStore = usePersistStore();
 
-  useEffect(() => {
-    setAllMyPokemons(persistentStore.listAllMyPokemons());
-  }, []);
-
-  const allMyPokemons = groupedByIdPokemons(
-    Object.values(allMyPokemonsPersist)
-  );
+  const allMyPokemons = groupedByIdPokemons(Object.values(persistStore.value));
 
   return (
     <Wrapper>
@@ -133,12 +128,9 @@ const MyPokemons: React.FC<{}> = () => {
               {pokemons.map((p) => {
                 return (
                   <NicknameItem
-                    onRemove={(_) => {
-                      const newPokemons =
-                        persistentStore.removePokemonByNickname(p.nickname);
-
-                      setAllMyPokemons(newPokemons);
-                    }}
+                    onRemove={(_) =>
+                      persistStore.actions.removePokemonByNickname(p.nickname)
+                    }
                     key={p.nickname}
                     nickname={p.nickname}
                   ></NicknameItem>

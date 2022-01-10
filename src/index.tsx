@@ -7,13 +7,16 @@ import reportWebVitals from "./reportWebVitals";
 import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
 import { apolloClient } from "./lib/apollo";
+import { PersistStoreProvider } from "./lib/PersistStoreContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <PersistStoreProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistStoreProvider>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
