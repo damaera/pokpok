@@ -32,7 +32,7 @@ const Wrapper = styled.div`
 
 const Item = styled.div`
   text-transform: capitalize;
-  font-size: ${typography.sm}px;
+  font-size: ${typography.md}px;
 `;
 const CardTitle = styled.div`
   font-weight: bold;
@@ -45,7 +45,6 @@ const PokemonDetail: React.FC<{}> = () => {
   const persistStore = usePersistStore();
 
   const { loading, error, data } = useGetPokemonQuery({
-    fetchPolicy: "network-only",
     variables: {
       name: pokemonId,
     },
