@@ -1,42 +1,34 @@
 import { render, screen } from "@testing-library/react";
-import { Header } from "../ui/Header";
-import { MemoryRouter } from "react-router-dom";
-// import { routes } from "../routes";
-// import { color } from "../ui/constant";
+import { PokeCard } from "../ui/pokemon/PokeCard";
 
 describe("PokeCard", () => {
-  test("renders title and links", () => {
+  test("render pokemon", () => {
     // arrange
     render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
+      <PokeCard
+        isLoading={false}
+        pokemon={{ id: 1, name: "pokename", image: "pokeimage" }}
+      />
     );
-    const pokpokTitle = screen.getByText(/pokpok/i);
-    const myPokemonsLink = screen.getByText(/my pokemons/i);
-    const allPokemonsLink = screen.getByText(/all pokemons/i);
+    const pokeName = screen.getByText(/pokename/i);
 
     // assert
-    expect(pokpokTitle).toBeInTheDocument();
-    expect(myPokemonsLink).toBeInTheDocument();
-    expect(allPokemonsLink).toBeInTheDocument();
+    expect(pokeName).toBeInTheDocument();
+  });
+
+  test("render total owned", () => {
+    // arrange
+    render(
+      <PokeCard
+        isLoading={false}
+        pokemon={{ id: 1, name: "pokename", image: "pokeimage" }}
+        totalOwned={3}
+      />
+    );
+
+    const totalOwned = screen.getByText(/own 3/i);
+
+    // assert
+    expect(totalOwned).toBeInTheDocument();
   });
 });
-
-// describe("Header integrations", () => {
-//   test("click my pokemons should go to my pokemons page", () => {
-//     // arrange
-//     render(
-//       <MemoryRouter>
-//         <App />
-//       </MemoryRouter>
-//     );
-//     const myPokemonsLink = screen.getByText(/my pokemons/i);
-
-//     // act
-//     fireEvent.click(myPokemonsLink);
-
-//     // assert
-//     expect(screen.getByText(/this is my pokemons/i)).toBeInTheDocument();
-//   });
-// });
