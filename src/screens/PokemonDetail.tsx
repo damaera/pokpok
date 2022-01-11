@@ -20,6 +20,7 @@ import { Card } from "../ui/Card";
 import { TYPES_EMOJI } from "../lib/pokemon";
 import { typography } from "../ui/constant";
 import { Spacer } from "../ui/Spacer";
+import Skeleton from "react-loading-skeleton";
 
 const Wrapper = styled.div`
   display: flex;
@@ -119,6 +120,16 @@ const PokemonDetail: React.FC<{}> = () => {
       <Card style={{ width: 300 }}>
         <CardTitle>Types</CardTitle>
         <Spacer size={0.5} />
+        {loading && (
+          <>
+            <Item>
+              <Skeleton />
+            </Item>
+            <Item>
+              <Skeleton />
+            </Item>
+          </>
+        )}
         {data?.pokemon?.types?.map((t, i) => {
           return (
             <Item key={i}>
@@ -129,6 +140,16 @@ const PokemonDetail: React.FC<{}> = () => {
         <Spacer />
         <CardTitle>Abilities</CardTitle>
         <Spacer size={0.5} />
+        {loading && (
+          <>
+            <Item>
+              <Skeleton />
+            </Item>
+            <Item>
+              <Skeleton />
+            </Item>
+          </>
+        )}
         {data?.pokemon?.abilities?.map((a, i) => {
           return <Item key={i}>{a?.ability?.name?.replace("-", " ")} </Item>;
         })}
@@ -136,6 +157,25 @@ const PokemonDetail: React.FC<{}> = () => {
       <Card style={{ width: 300 }}>
         <CardTitle>Moves</CardTitle>
         <Spacer size={0.5} />
+        {loading && (
+          <>
+            <Item>
+              <Skeleton />
+            </Item>
+            <Item>
+              <Skeleton />
+            </Item>
+            <Item>
+              <Skeleton />
+            </Item>
+            <Item>
+              <Skeleton />
+            </Item>
+            <Item>
+              <Skeleton />
+            </Item>
+          </>
+        )}
         {data?.pokemon?.moves?.map((a, i) => {
           return <Item key={i}>{a?.move?.name?.replace("-", " ")} </Item>;
         })}
